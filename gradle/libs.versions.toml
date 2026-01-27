@@ -1,0 +1,65 @@
+# mostly sourced from HyProfile
+
+[versions]
+kotlin = "2.3.0"
+kotlinxDatetime = "0.7.1"
+kotlinxSerializationJSON = "1.10.0"
+kotlinxCoroutines = "1.10.2"
+
+grpc = "1.78.0"
+grpcKotlin = "1.5.0"
+protobuf = "4.29.3" #old but most stable with grpc
+protobufPlugin = "0.9.6"
+
+hikari = "7.0.2"
+postgresql = "42.7.9"
+
+lettuce = "7.2.1.RELEASE"
+
+slf4j = "2.0.17"
+logback = "1.5.26"
+
+junit = "6.0.2"
+mockk = "1.14.7"
+
+[libraries]
+kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+protobufGradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufPlugin" }
+
+kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
+kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+
+grpcProtobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
+grpcStub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+grpcKotlinStub = { module = "io.grpc:grpc-kotlin-stub", version.ref = "grpcKotlin" }
+grpcNettyShaded = { module = "io.grpc:grpc-netty-shaded", version.ref = "grpc" }
+protobufKotlin = { module = "com.google.protobuf:protobuf-kotlin", version.ref = "protobuf" }
+protobufJava = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+
+hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+
+lettuce = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
+
+slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+logbackClassic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+junitApi = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junitEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotlinxCoroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+
+[bundles]
+kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
+grpcRuntime = ["grpcProtobuf", "grpcStub", "grpcKotlinStub", "protobufKotlin"]
+grpcServer = ["grpcProtobuf", "grpcStub", "grpcKotlinStub", "grpcNettyShaded", "protobufKotlin"]
+grpcClient = ["grpcProtobuf", "grpcStub", "grpcKotlinStub", "grpcNettyShaded", "protobufKotlin"]
+database = ["hikari", "postgresql"]
+logging = ["slf4jApi", "logbackClassic"]
+testing = ["junitApi", "junitEngine", "mockk", "kotlinxCoroutinesTest"]
+
+[plugins]
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
