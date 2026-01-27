@@ -59,19 +59,21 @@ message TransferRequest {
 
 // Admin operations
 message AdminGrantRequest {
-    PlayerId player_id = 1;
-    string currency_type = 2;
-    int64 amount = 3;
-    string admin_id = 4;
-    optional string reason = 5;
+    string transaction_id = 1;
+    PlayerId player_id = 2;
+    string currency_type = 3;
+    int64 amount = 4;
+    string admin_id = 5;
+    optional string reason = 6;
 }
 
 message AdminRemoveRequest {
-    PlayerId player_id = 1;
-    string currency_type = 2;
-    int64 amount = 3;
-    string admin_id = 4;
-    optional string reason = 5;
+    string transaction_id = 1;
+    PlayerId player_id = 2;
+    string currency_type = 3;
+    int64 amount = 4;
+    string admin_id = 5;
+    optional string reason = 6;
 }
 
 // -- Response Messages
