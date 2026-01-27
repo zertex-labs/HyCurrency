@@ -6,4 +6,132 @@ option java_multiple_files = true;
 option java_package = "hycurrency.proto";
 option java_outer_classname = "CurrencyProto";
 
-service CurrencyService {}
+// --- Common Types
+message PlayerId {
+    string uuid = 1;
+}
+
+message Balance {
+    string currency_type = 1;
+    int64 amount = 2;
+}
+
+message Balances {
+  repeated Balance entries = 1;
+}
+
+// --- Request Messages
+message GetBalanceRequest {
+    PlayerId player_id = 1;
+    string currency_type = 2;
+}
+
+message GetAllBalancesRequest {
+    PlayerId player_id = 1;
+}
+
+// most requests have a "reason" which can be something like: "shop_purchase:bad_api"
+// mostly used for "tagging" requests and maybe statistics in the future
+message DeductRequest {
+    string transaction_id = 1;
+    PlayerId player_id = 2;
+    string currency_type = 3;
+    int64 amount = 4;
+    optional string reason = 5;
+}
+
+message AddRequest {
+    string transaction_id = 1;
+    PlayerId player_id = 2;
+    string currency_type = 3;
+    int64 amount = 4;
+    optional string reason = 5;
+}
+
+message TransferRequest {
+    string transaction_id = 1;
+    PlayerId from_player_id = 2;
+    PlayerId to_player_id = 3;
+    string currency_type = 4;
+    int64 amount = 5;
+    optional string reason = 6;
+}
+
+// Admin operations
+message AdminGrantRequest {
+    PlayerId player_id = 1;
+    string currency_type = 2;
+    int64 amount = 3;
+    string admin_id = 4;
+    optional string reason = 5;
+}
+
+message AdminRemoveRequest {
+    PlayerId player_id = 1;
+    string currency_type = 2;
+    int64 amount = 3;
+    string admin_id = 4;
+    optional string reason = 5;
+}
+
+// -- Response Messages
+message GetBalanceResponse {
+    oneof result {
+        int64 balance = 1;
+        PlayerNotFoundError player_not_found = 2;
+        ErrorInfo error = 3;
+    }
+}
+
+message GetAllBalancesResponse {
+    oneof result {
+        Balances balances = 1;
+        PlayerNotFoundError player_not_found = 2;
+        ErrorInfo error = 3;
+    }
+}
+
+message TransactionSuccess {
+  int64 new_balance = 1;
+  string transaction_id = 2;
+}
+
+message TransactionResponse {
+    oneof result {
+        TransactionSuccess success = 1;
+        InsufficientFundsError insufficient_funds = 2;
+        PlayerNotFoundError player_not_found = 3;
+        ErrorInfo error = 4;
+    }
+}
+
+// --- Errors
+message PlayerNotFoundError {
+  PlayerId player_id = 1;
+}
+
+message InsufficientFundsError {
+    PlayerId player_id = 1;
+    string currency_type = 2;
+    int64 required = 3;
+    int64 available = 4;
+}
+
+message ErrorInfo {
+    string code = 1;
+    optional string message = 2;
+}
+
+// --- Services
+service CurrencyService {
+    // Player operations
+    rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse);
+    rpc GetAllBalances(GetAllBalancesRequest) returns (GetAllBalancesResponse);
+    rpc Deduct(DeductRequest) returns (TransactionResponse);
+    rpc Add(AddRequest) returns (TransactionResponse);
+    rpc Transfer(TransferRequest) returns (TransactionResponse);
+
+    // Admin operations
+    rpc AdminGrant(AdminGrantRequest) returns (TransactionResponse);
+    rpc AdminRemove(AdminRemoveRequest) returns (TransactionResponse);
+}

@@ -3,6 +3,6 @@ plugins {
 }
 
 allprojects {
-    group = "hyprofile"
-    version = "0.0.1"
+    group = "hycurrency"
+    version = "0.1.0"
 }
