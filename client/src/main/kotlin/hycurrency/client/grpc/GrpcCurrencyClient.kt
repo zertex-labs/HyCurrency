@@ -6,14 +6,10 @@ import hycurrency.client.model.PlayerId
 import hycurrency.client.model.TransactionResult
 import hycurrency.client.model.TwoPartyTransactionResult
 import hycurrency.proto.CurrencyServiceGrpcKt
-import hycurrency.proto.GetBalanceResponse
-import hycurrency.proto.TransactionResponse
 import hycurrency.proto.addRequest
-import hycurrency.proto.adminGrantRequest
 import hycurrency.proto.deductRequest
 import hycurrency.proto.getAllBalancesRequest
 import hycurrency.proto.getBalanceRequest
-import hycurrency.proto.playerId
 import hycurrency.proto.transferRequest
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -88,7 +84,7 @@ class GrpcCurrencyClient(
             reason?.let { this.reason = it }
         }
 
-        return stub.add(request).toCurrencyResult(playerId, currencyType);
+        return stub.add(request).toCurrencyResult(playerId, currencyType)
     }
 
     override suspend fun transfer(
@@ -109,46 +105,6 @@ class GrpcCurrencyClient(
         }
 
         return stub.transfer(request).toCurrencyResult(fromPlayerId, toPlayerId, currencyType)
-    }
-
-    override suspend fun adminGrant(
-        transactionId: String,
-        playerId: PlayerId,
-        currencyType: String,
-        amount: Long,
-        adminId: String,
-        reason: String?
-    ): CurrencyResult<TransactionResult> {
-        val request = adminGrantRequest {
-            this.transactionId = transactionId
-            this.playerId = playerId.toProto()
-            this.currencyType = currencyType
-            this.amount = amount
-            this.adminId = adminId
-            reason?.let { this.reason = it }
-        }
-
-        return stub.adminGrant(request).toCurrencyResult(playerId, currencyType)
-    }
-
-    override suspend fun adminRemove(
-        transactionId: String,
-        playerId: PlayerId,
-        currencyType: String,
-        amount: Long,
-        adminId: String,
-        reason: String?
-    ): CurrencyResult<TransactionResult> {
-        val request = hycurrency.proto.adminRemoveRequest {
-            this.transactionId = transactionId
-            this.playerId = playerId.toProto()
-            this.currencyType = currencyType
-            this.amount = amount
-            this.adminId = adminId
-            reason?.let { this.reason = it }
-        }
-
-        return stub.adminRemove(request).toCurrencyResult(playerId, currencyType)
     }
 
     override fun close() {

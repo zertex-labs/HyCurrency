@@ -84,48 +84,4 @@ interface CurrencyClient : AutoCloseable {
         amount: Long,
         reason: String? = null
     ): CurrencyResult<TwoPartyTransactionResult>
-
-    // --- Admin Operations ---
-
-    /**
-     * Grant currency to a player (admin operation).
-     * This bypasses normal gameplay rules.
-     *
-     * @param transactionId Unique ID for idempotency
-     * @param playerId The player to grant to
-     * @param currencyType The type of currency
-     * @param amount The amount to grant (must be positive)
-     * @param adminId ID of the admin performing this action
-     * @param reason Optional reason for tracking
-     * @return TransactionResult with new balance and transaction ID, or an error result
-     */
-    suspend fun adminGrant(
-        transactionId: String,
-        playerId: PlayerId,
-        currencyType: String,
-        amount: Long,
-        adminId: String,
-        reason: String? = null
-    ): CurrencyResult<TransactionResult>
-
-    /**
-     * Remove currency from a player (admin operation).
-     * This bypasses normal gameplay rules and can result in negative balance.
-     *
-     * @param transactionId Unique ID for idempotency
-     * @param playerId The player to remove from
-     * @param currencyType The type of currency
-     * @param amount The amount to remove (must be positive)
-     * @param adminId ID of the admin performing this action
-     * @param reason Optional reason for tracking
-     * @return TransactionResult with new balance and transaction ID, or an error result
-     */
-    suspend fun adminRemove(
-        transactionId: String,
-        playerId: PlayerId,
-        currencyType: String,
-        amount: Long,
-        adminId: String,
-        reason: String? = null
-    ): CurrencyResult<TransactionResult>
 }
