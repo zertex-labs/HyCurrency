@@ -92,8 +92,14 @@ message GetAllBalancesResponse {
 }
 
 message TransactionSuccess {
-  int64 new_balance = 1;
   string transaction_id = 2;
+  int64 new_balance = 1;
+}
+
+message TwoPartyTransactionSuccess {
+  string transaction_id = 1;
+  int64 sender_new_balance = 2;
+  int64 receiver_new_balance = 3;
 }
 
 message TransactionResponse {
@@ -105,8 +111,22 @@ message TransactionResponse {
     }
 }
 
+message TwoPartyTransactionResponse {
+  oneof result {
+    TwoPartyTransactionSuccess success = 1;
+    InsufficientFundsError insufficient_funds = 2;
+    PlayerNotFoundError sender_not_found = 3;
+    ReceiverNotFoundError receiver_not_found = 4;
+    ErrorInfo error = 5;
+  }
+}
+
 // --- Errors
 message PlayerNotFoundError {
+  PlayerId player_id = 1;
+}
+
+message ReceiverNotFoundError {
   PlayerId player_id = 1;
 }
 
@@ -129,7 +149,7 @@ service CurrencyService {
     rpc GetAllBalances(GetAllBalancesRequest) returns (GetAllBalancesResponse);
     rpc Deduct(DeductRequest) returns (TransactionResponse);
     rpc Add(AddRequest) returns (TransactionResponse);
-    rpc Transfer(TransferRequest) returns (TransactionResponse);
+    rpc Transfer(TransferRequest) returns (TwoPartyTransactionResponse);
 
     // Admin operations
     rpc AdminGrant(AdminGrantRequest) returns (TransactionResponse);
