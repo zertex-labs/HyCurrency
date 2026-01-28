@@ -24,9 +24,6 @@ class GrpcCurrencyClient(
     private val stub = CurrencyServiceGrpcKt.CurrencyServiceCoroutineStub(channel)
 
     companion object {
-        /**
-         * Create a client connected to the given host:port.
-         */
         fun create(host: String, port: Int): GrpcCurrencyClient {
             val channel = ManagedChannelBuilder
                 .forAddress(host, port)

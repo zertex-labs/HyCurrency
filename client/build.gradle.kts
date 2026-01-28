@@ -1,5 +1,6 @@
 plugins {
     id("buildsrc.convention.kotlin-jvm")
+    alias(libs.plugins.shadow)
 }
 
 dependencies {
@@ -7,4 +8,11 @@ dependencies {
     api(libs.kotlinxCoroutines)
     api(libs.bundles.grpcClient)
     testImplementation(libs.bundles.testing)
+}
+
+tasks.shadowJar {
+    archiveBaseName.set("hycurrency-client")
+    archiveClassifier.set("all")
+    mergeServiceFiles()  // Required for gRPC to find service providers
+    minimize()
 }

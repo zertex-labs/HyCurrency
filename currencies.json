@@ -1,0 +1,31 @@
+{
+  "currencies": [
+    {
+      "id": "coins",
+      "display_name": "Coins",
+      "max_balance": -1,
+      "max_balance_behaviour": "clamp",
+      "negative_behaviour": "strict",
+      "transferable": true,
+      "starting_balance": 0
+    },
+    {
+      "id": "gems",
+      "display_name": "Gems",
+      "max_balance": 100000,
+      "max_balance_behaviour": "strict",
+      "negative_behaviour": "strict",
+      "transferable": false,
+      "starting_balance": 0
+    },
+    {
+      "id": "debt_tokens",
+      "display_name": "Debt Tokens",
+      "max_balance": -1,
+      "negative_behaviour": "allow",
+      "max_balance_behaviour": "clamp",
+      "transferable": false,
+      "starting_balance": 0
+    }
+  ]
+}

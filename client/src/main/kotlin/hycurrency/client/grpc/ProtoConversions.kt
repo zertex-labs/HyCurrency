@@ -63,8 +63,9 @@ fun TransactionResponse.toCurrencyResult(
     return when (resultCase) {
         TransactionResponse.ResultCase.SUCCESS -> CurrencyResult.Success(
             TransactionResult(
+                transactionId = success.transactionId,
                 newBalance = success.newBalance,
-                transactionId = success.transactionId
+                remainder = success.remainder
             )
         )
         TransactionResponse.ResultCase.INSUFFICIENT_FUNDS -> CurrencyResult.InsufficientFunds(
@@ -94,7 +95,8 @@ fun TwoPartyTransactionResponse.toCurrencyResult(
             TwoPartyTransactionResult(
                 transactionId = success.transactionId,
                 senderNewBalance = success.senderNewBalance,
-                receiverNewBalance = success.receiverNewBalance
+                receiverNewBalance = success.receiverNewBalance,
+                remainder = success.remainder
             )
         )
         TwoPartyTransactionResponse.ResultCase.INSUFFICIENT_FUNDS -> CurrencyResult.InsufficientFunds(

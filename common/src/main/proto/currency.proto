@@ -75,14 +75,21 @@ message GetAllBalancesResponse {
 }
 
 message TransactionSuccess {
-  string transaction_id = 2;
-  int64 new_balance = 1;
+  string transaction_id = 1;
+  int64 new_balance = 2;
+  // Amount that could not be applied due to clamping (0 if no clamping occurred)
+  // For deduct: remainder when balance would go negative with clamp mode
+  // For add: remainder when balance would exceed max_balance with clamp mode
+  int64 remainder = 3;
 }
 
 message TwoPartyTransactionSuccess {
   string transaction_id = 1;
   int64 sender_new_balance = 2;
   int64 receiver_new_balance = 3;
+  // Amount that could not be transferred due to clamping (0 if no clamping occurred)
+  // Only applies if sender had insufficient funds with clamp mode
+  int64 remainder = 4;
 }
 
 message TransactionResponse {

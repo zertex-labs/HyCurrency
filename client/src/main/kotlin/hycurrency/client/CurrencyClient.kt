@@ -32,7 +32,7 @@ interface CurrencyClient : AutoCloseable {
     /**
      * Deduct currency from a player's balance.
      *
-     * @param transactionId Unique ID for idempotency
+     * @param transactionId Unique ID for idempotency (make sure it's deterministic, otherwise it's useless)
      * @param playerId The player to deduct from
      * @param currencyType The type of currency (e.g., "coins", "gems")
      * @param amount The amount to deduct (must be positive)
@@ -50,7 +50,7 @@ interface CurrencyClient : AutoCloseable {
     /**
      * Add currency to a player's balance.
      *
-     * @param transactionId Unique ID for idempotency
+     * @param transactionId Unique ID for idempotency (make sure it's deterministic, otherwise it's useless)
      * @param playerId The player to add to
      * @param currencyType The type of currency (e.g., "coins", "gems")
      * @param amount The amount to add (must be positive)
@@ -68,7 +68,7 @@ interface CurrencyClient : AutoCloseable {
     /**
      * Transfer currency from one player to another.
      *
-     * @param transactionId Unique ID for idempotency
+     * @param transactionId Unique ID for idempotency (make sure it's deterministic, otherwise it's useless)
      * @param fromPlayerId The player to transfer from
      * @param toPlayerId The player to transfer to
      * @param currencyType The type of currency
