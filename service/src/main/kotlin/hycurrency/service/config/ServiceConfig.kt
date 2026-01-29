@@ -45,8 +45,6 @@ data class IdempotencyConfig(
 
 /**
  * Defines how deduct operations behave when the player doesn't have enough balance.
- *
- * Example: Player has 10 coins, tries to deduct 100.
  */
 @Serializable
 enum class NegativeBehaviour {
