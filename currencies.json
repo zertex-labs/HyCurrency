@@ -17,15 +17,6 @@
       "negative_behaviour": "strict",
       "transferable": false,
       "starting_balance": 0
-    },
-    {
-      "id": "debt_tokens",
-      "display_name": "Debt Tokens",
-      "max_balance": -1,
-      "negative_behaviour": "allow",
-      "max_balance_behaviour": "clamp",
-      "transferable": false,
-      "starting_balance": 0
     }
   ]
 }
