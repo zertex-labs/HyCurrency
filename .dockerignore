@@ -1,0 +1,32 @@
+# Build artifacts (except shadow JARs)
+.gradle/
+*/.gradle/
+
+# Exclude build directories but keep shadow JARs
+**/build/*
+!**/build/libs/
+**/build/libs/*
+!**/build/libs/*-all.jar
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Nix
+result
+result-*
+
+# Local env files (keep .env.example)
+.env
+.env.local
+
+# Test databases
+*.db
+
+# Logs
+*.log
+logs/
