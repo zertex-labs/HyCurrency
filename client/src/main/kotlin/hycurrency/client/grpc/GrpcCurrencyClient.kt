@@ -38,7 +38,7 @@ class GrpcCurrencyClient(
             this.playerId = playerId.toProto()
             this.currencyType = currencyType
         }
-        return stub.getBalance(request).toCurrencyResult(playerId)
+        return stub.getBalance(request).toCurrencyResult(playerId, currencyType)
     }
 
     override suspend fun getAllBalances(playerId: PlayerId): CurrencyResult<Map<String, Long>> {

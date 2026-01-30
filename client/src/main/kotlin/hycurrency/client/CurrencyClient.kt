@@ -1,5 +1,6 @@
 package hycurrency.client
 
+import hycurrency.client.exception.InvalidCurrencyTypeException
 import hycurrency.client.model.CurrencyResult
 import hycurrency.client.model.PlayerId
 import hycurrency.client.model.TransactionResult
@@ -11,13 +12,16 @@ import hycurrency.client.model.TwoPartyTransactionResult
  * All mutation operations require a `transactionId` for idempotency.
  * If the same `transactionId` is used twice, the second call will
  * return the result of the first operation without applying changes again.
+ *
+ * @throws InvalidCurrencyTypeException if any operation is called with a currency type
+ *         that doesn't exist in the server's configuration
  */
 interface CurrencyClient : AutoCloseable {
-    // --- Query Operations ---
-
     /**
      * Get the balance of a specific currency type for a player.
      * Returns 0 if the player exists but has no balance for this currency type.
+     *
+     * @throws InvalidCurrencyTypeException if the currency type doesn't exist
      */
     suspend fun getBalance(playerId: PlayerId, currencyType: String): CurrencyResult<Long>
 
@@ -26,8 +30,6 @@ interface CurrencyClient : AutoCloseable {
      * Returns a map of currency type to amount.
      */
     suspend fun getAllBalances(playerId: PlayerId): CurrencyResult<Map<String, Long>>
-
-    // --- Player Operations ---
 
     /**
      * Deduct currency from a player's balance.
@@ -38,6 +40,7 @@ interface CurrencyClient : AutoCloseable {
      * @param amount The amount to deduct (must be positive)
      * @param reason Optional reason for tracking (e.g., "shop_purchase:diamond_sword")
      * @return TransactionResult with new balance and transaction ID, or an error result
+     * @throws InvalidCurrencyTypeException if the currency type doesn't exist
      */
     suspend fun deduct(
         transactionId: String,
@@ -56,6 +59,7 @@ interface CurrencyClient : AutoCloseable {
      * @param amount The amount to add (must be positive)
      * @param reason Optional reason for tracking (e.g., "quest_reward:kill_dragon")
      * @return TransactionResult with new balance and transaction ID, or an error result
+     * @throws InvalidCurrencyTypeException if the currency type doesn't exist
      */
     suspend fun add(
         transactionId: String,
@@ -75,6 +79,7 @@ interface CurrencyClient : AutoCloseable {
      * @param amount The amount to transfer (must be positive)
      * @param reason Optional reason for tracking (e.g., "player_trade")
      * @return TwoPartyTransactionResult with sender and receiver's new balance and transaction ID, or an error result
+     * @throws InvalidCurrencyTypeException if the currency type doesn't exist
      */
     suspend fun transfer(
         transactionId: String,
