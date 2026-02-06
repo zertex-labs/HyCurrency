@@ -1,7 +1,8 @@
 # HyCurrency Client
 
 ## Usage
-NOTE: for transactionId check "Idempotency"
+NOTE: for transactionId check [Idempotency](#idempotency)
+
 ```kotlin
 val client = GrpcCurrencyClient.create("localhost", 50051)
 
